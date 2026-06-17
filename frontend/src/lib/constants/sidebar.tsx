@@ -3,6 +3,7 @@ import {
   Image as ImageIcon,
   Key,
   LayoutDashboard,
+  LayoutGrid,
   Mail,
   Settings,
   Shield,
@@ -21,6 +22,7 @@ export const MENU_PERMISSIONS = {
   permissions: 'menu.permissions',
   media: 'menu.media',
   invitations: 'menu.invitations',
+  kanban: 'menu.kanban',
 } as const
 
 export type MenuPermissionKey =
@@ -59,6 +61,14 @@ export const sidebarData: Array<NavGroup> = [
   {
     title: 'Management',
     items: [
+      {
+        key: 'kanban',
+        icon: <LayoutGrid size={20} />,
+        label: 'Kanban',
+        href: '/kanban',
+        menuPermission: MENU_PERMISSIONS.kanban,
+        permission: 'boards.read',
+      },
       {
         key: 'users',
         icon: <Users size={20} />,

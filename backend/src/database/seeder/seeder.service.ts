@@ -19,6 +19,7 @@ export class SeederService implements OnApplicationBootstrap {
     { name: 'menu.permissions', description: 'View permissions in sidebar' },
     { name: 'menu.media', description: 'View media library in sidebar' },
     { name: 'menu.invitations', description: 'View invitations in sidebar' },
+    { name: 'menu.kanban', description: 'View kanban boards in sidebar' },
 
     // User permissions
     { name: 'users.invite', description: 'Invite new users' },
@@ -62,6 +63,37 @@ export class SeederService implements OnApplicationBootstrap {
       description: 'Delete all media files regardless of ownership',
     },
     { name: 'media.delete', description: 'Delete media files' },
+
+    // Kanban board permissions
+    { name: 'boards.create', description: 'Create kanban boards' },
+    { name: 'boards.read', description: 'Read kanban boards' },
+    { name: 'boards.update', description: 'Update kanban boards' },
+    { name: 'boards.delete', description: 'Delete kanban boards' },
+    { name: 'columns.create', description: 'Create board columns' },
+    { name: 'columns.read', description: 'Read board columns' },
+    { name: 'columns.update', description: 'Update/reorder board columns' },
+    { name: 'columns.delete', description: 'Delete board columns' },
+    { name: 'cards.create', description: 'Create cards' },
+    { name: 'cards.read', description: 'Read cards' },
+    { name: 'cards.update', description: 'Update/move cards' },
+    { name: 'cards.delete', description: 'Delete cards' },
+  ];
+
+  // Kanban is owner-private, so every standard user gets full access to it.
+  private readonly kanbanPermissions = [
+    'menu.kanban',
+    'boards.create',
+    'boards.read',
+    'boards.update',
+    'boards.delete',
+    'columns.create',
+    'columns.read',
+    'columns.update',
+    'columns.delete',
+    'cards.create',
+    'cards.read',
+    'cards.update',
+    'cards.delete',
   ];
 
   constructor(
@@ -136,12 +168,20 @@ export class SeederService implements OnApplicationBootstrap {
       userRole = this.roleRepository.create({
         name: 'user',
         description: 'Standard user with base access',
-        permissions: getPermissions('menu.dashboard', 'media.read'),
+        permissions: getPermissions(
+          'menu.dashboard',
+          'media.read',
+          ...this.kanbanPermissions,
+        ),
       });
       await this.roleRepository.save(userRole);
       this.logger.log('Created user role.');
     } else {
-      userRole.permissions = getPermissions('menu.dashboard', 'media.read');
+      userRole.permissions = getPermissions(
+        'menu.dashboard',
+        'media.read',
+        ...this.kanbanPermissions,
+      );
       await this.roleRepository.save(userRole);
       this.logger.log('Updated user role permissions.');
     }
