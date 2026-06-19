@@ -33,6 +33,19 @@ const SEEDED_PERMISSION_NAMES = [
   'media.read_all',
   'media.delete_all',
   'media.delete',
+  'menu.kanban',
+  'boards.create',
+  'boards.read',
+  'boards.update',
+  'boards.delete',
+  'columns.create',
+  'columns.read',
+  'columns.update',
+  'columns.delete',
+  'cards.create',
+  'cards.read',
+  'cards.update',
+  'cards.delete',
 ];
 
 /**
@@ -51,6 +64,11 @@ export async function cleanDatabase(
   adminEmail: string,
 ): Promise<void> {
   await dataSource.query('UPDATE users SET "avatarId" = NULL');
+  // Kanban: delete boards (FK to users is ON DELETE NO ACTION, so boards must
+  // go before their owners); columns/cards cascade from boards at the DB level.
+  await dataSource.query('DELETE FROM cards');
+  await dataSource.query('DELETE FROM board_columns');
+  await dataSource.query('DELETE FROM boards');
   await dataSource.query('DELETE FROM media');
   await dataSource.query('DELETE FROM notifications');
   await dataSource.query('DELETE FROM invitations');

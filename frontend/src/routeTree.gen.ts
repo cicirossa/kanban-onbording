@@ -21,6 +21,8 @@ import { Route as authResetPasswordRouteImport } from './routes/(auth)/reset-pas
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as authAcceptInviteRouteImport } from './routes/(auth)/accept-invite'
+import { Route as kanbanKanbanIndexRouteImport } from './routes/(kanban)/kanban/index'
+import { Route as kanbanKanbanBoardIdRouteImport } from './routes/(kanban)/kanban/$boardId'
 import { Route as databasesrolesRolesRouteImport } from './routes/(databases)/(roles)/roles'
 import { Route as databasespermissionsPermissionsRouteImport } from './routes/(databases)/(permissions)/permissions'
 
@@ -84,6 +86,16 @@ const authAcceptInviteRoute = authAcceptInviteRouteImport.update({
   path: '/accept-invite',
   getParentRoute: () => rootRouteImport,
 } as any)
+const kanbanKanbanIndexRoute = kanbanKanbanIndexRouteImport.update({
+  id: '/(kanban)/kanban/',
+  path: '/kanban/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const kanbanKanbanBoardIdRoute = kanbanKanbanBoardIdRouteImport.update({
+  id: '/(kanban)/kanban/$boardId',
+  path: '/kanban/$boardId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const databasesrolesRolesRoute = databasesrolesRolesRouteImport.update({
   id: '/(databases)/(roles)/roles',
   path: '/roles',
@@ -111,6 +123,8 @@ export interface FileRoutesByFullPath {
   '/users': typeof usersUsersRoute
   '/permissions': typeof databasespermissionsPermissionsRoute
   '/roles': typeof databasesrolesRolesRoute
+  '/kanban/$boardId': typeof kanbanKanbanBoardIdRoute
+  '/kanban/': typeof kanbanKanbanIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -127,6 +141,8 @@ export interface FileRoutesByTo {
   '/users': typeof usersUsersRoute
   '/permissions': typeof databasespermissionsPermissionsRoute
   '/roles': typeof databasesrolesRolesRoute
+  '/kanban/$boardId': typeof kanbanKanbanBoardIdRoute
+  '/kanban': typeof kanbanKanbanIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -144,6 +160,8 @@ export interface FileRoutesById {
   '/(users)/users': typeof usersUsersRoute
   '/(databases)/(permissions)/permissions': typeof databasespermissionsPermissionsRoute
   '/(databases)/(roles)/roles': typeof databasesrolesRolesRoute
+  '/(kanban)/kanban/$boardId': typeof kanbanKanbanBoardIdRoute
+  '/(kanban)/kanban/': typeof kanbanKanbanIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -162,6 +180,8 @@ export interface FileRouteTypes {
     | '/users'
     | '/permissions'
     | '/roles'
+    | '/kanban/$boardId'
+    | '/kanban/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -178,6 +198,8 @@ export interface FileRouteTypes {
     | '/users'
     | '/permissions'
     | '/roles'
+    | '/kanban/$boardId'
+    | '/kanban'
   id:
     | '__root__'
     | '/'
@@ -194,6 +216,8 @@ export interface FileRouteTypes {
     | '/(users)/users'
     | '/(databases)/(permissions)/permissions'
     | '/(databases)/(roles)/roles'
+    | '/(kanban)/kanban/$boardId'
+    | '/(kanban)/kanban/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -211,6 +235,8 @@ export interface RootRouteChildren {
   usersUsersRoute: typeof usersUsersRoute
   databasespermissionsPermissionsRoute: typeof databasespermissionsPermissionsRoute
   databasesrolesRolesRoute: typeof databasesrolesRolesRoute
+  kanbanKanbanBoardIdRoute: typeof kanbanKanbanBoardIdRoute
+  kanbanKanbanIndexRoute: typeof kanbanKanbanIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -299,6 +325,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authAcceptInviteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(kanban)/kanban/': {
+      id: '/(kanban)/kanban/'
+      path: '/kanban'
+      fullPath: '/kanban/'
+      preLoaderRoute: typeof kanbanKanbanIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(kanban)/kanban/$boardId': {
+      id: '/(kanban)/kanban/$boardId'
+      path: '/kanban/$boardId'
+      fullPath: '/kanban/$boardId'
+      preLoaderRoute: typeof kanbanKanbanBoardIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(databases)/(roles)/roles': {
       id: '/(databases)/(roles)/roles'
       path: '/roles'
@@ -331,6 +371,8 @@ const rootRouteChildren: RootRouteChildren = {
   usersUsersRoute: usersUsersRoute,
   databasespermissionsPermissionsRoute: databasespermissionsPermissionsRoute,
   databasesrolesRolesRoute: databasesrolesRolesRoute,
+  kanbanKanbanBoardIdRoute: kanbanKanbanBoardIdRoute,
+  kanbanKanbanIndexRoute: kanbanKanbanIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
