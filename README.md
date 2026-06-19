@@ -94,6 +94,9 @@ development. Full environment-variable tables are in
 
 ## Documentation Map
 
+**[FEATURES.md](./FEATURES.md)** — start here for a catalog of every feature the project
+ships (platform features, the Kanban boards, and the full RBAC permission surface).
+
 ### Backend — [`backend/docs/`](./backend/docs)
 
 | Doc | Read it when you need to… |
